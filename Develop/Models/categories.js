@@ -5,7 +5,6 @@ const sequelize = require('../Config/connections');
 class Category extends Model {}
 
 Category.init({
-  // Model attributes are defined here
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,

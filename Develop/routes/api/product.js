@@ -4,10 +4,22 @@ const productRouter = require('express').Router();
 const Product = require("../../Models/products");
 
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
-router.get('/', (req, res) => {});
+router.get('/', (req, res) => {
+  try {
+
+  } catch {
+
+  }
+});
 
 // GET /api/products/:id to retrieve one product's data by it's `id` value, include associated Category and Tag data (through ProductTag)
-router.get('/:id', (req, res) => {});
+router.get('/:id', (req, res) => {
+  try {
+
+  } catch {
+
+  }
+});
 
 // POST /api/products to create data in Product model and associate any tags using the ProductTag through model
 router.post('/', (req, res) => {
@@ -62,7 +74,11 @@ router.put('/:id', (req, res) => {
 // DELETE /api/products/:id to delete a product by its `id` value
 router.delete('/:id', (req, res) => {
   try {
+    ProductTag.destroy({
+      where: {
 
+      }
+    })
   } catch {
 
   }
