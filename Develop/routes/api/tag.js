@@ -1,20 +1,51 @@
-const router = require('express').Router();
+const tagRouter = require('express').Router();
 
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
+const Tag = require("../../Models/tags");
 
 // GET /api/tags to retrieve all tags from database, include associated Product data through ProductTag
-router.get('/', (req, res) => {});
+router.get('/', (req, res) => {
+    try {
+
+    } catch {
+
+    }
+});
 
 // GET /api/tags/:id to retrieve a tag from database by its `id`, include associated Product data through ProductTag
-router.get('/:id', (req, res) => {});
+router.get('/:id', (req, res) => {
+    try {
+
+    } catch {
+
+    }
+});
 
 // POST /api/tags to create a tag
-router.post('/', (req, res) => {});
+router.post('/', (req, res) => {
+    try {
+
+    } catch {
+
+    }
+});
 
 // PUT /api/tags/:id to update a tag's information by its `id`
-router.put('/:id', (req, res) => {});
+router.put('/:id', (req, res) => {
+    try {
+
+    } catch {
+
+    }
+});
 
 // DELETE /api/tags/:id to delete a tag by its `id`
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', (req, res) => {
+    try {
 
-module.exports = router;
+    } catch {
+
+    }
+});
+
+module.exports = tagRouter;

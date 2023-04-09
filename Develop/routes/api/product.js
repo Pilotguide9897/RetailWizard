@@ -1,6 +1,7 @@
-const router = require('express').Router();
+const productRouter = require('express').Router();
 
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
+const Product = require("../../Models/products");
 
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
 router.get('/', (req, res) => {});
@@ -59,6 +60,12 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE /api/products/:id to delete a product by its `id` value
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', (req, res) => {
+  try {
 
-module.exports = router;
+  } catch {
+
+  }
+});
+
+module.exports = productRouter;
