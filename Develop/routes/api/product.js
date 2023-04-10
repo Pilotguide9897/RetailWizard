@@ -5,6 +5,7 @@ const Product = require("../../Models/products");
 
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
 router.get('/', (req, res) => {
+  console.log(req.body);
   try {
 
   } catch {
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
 
 // GET /api/products/:id to retrieve one product's data by it's `id` value, include associated Category and Tag data (through ProductTag)
 router.get('/:id', (req, res) => {
+  console.log(req.body);
   try {
 
   } catch {
@@ -71,14 +73,16 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// DELETE /api/products/:id to delete a product by its `id` value
+// DELETE 
+// /api/products/:id to delete a product by its `id` value
 router.delete('/:id', (req, res) => {
   try {
-    ProductTag.destroy({
+    Product.destroy({
       where: {
-
+        id: req
       }
-    })
+    });
+    if (res>0)
   } catch {
 
   }
