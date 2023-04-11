@@ -2,29 +2,54 @@ const productRouter = require('express').Router();
 
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
 const Product = require("../../Models/products");
+const Tag = require("../../Models/tags");
+const ProductTag = require("../../Models/productTags");
+const Category = require('../../Models/categories');
 
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
-router.get('/', (req, res) => {
-  console.log(req.body);
+router.get('/', async (req, res) => {
   try {
-
-  } catch {
-
+    const products = await Product.findAll({
+      include: [{
+        model: Category,
+      },
+        {
+        model: Tag,
+        through: ProductTag,
+        },
+      ],
+    });
+      res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching product data', error});
   }
 });
 
 // GET /api/products/:id to retrieve one product's data by it's `id` value, include associated Category and Tag data (through ProductTag)
-router.get('/:id', (req, res) => {
-  console.log(req.body);
+router.get('/:id', async (req, res) => {
+  const productID = req.params.id;
   try {
-
+    const singleProduct = await Product.findAll({
+      where: {
+        id: req.params.id,
+      },
+      include: [{
+        model: Category,
+      },
+      {
+        model: Tag,
+        through: ProductTag,
+      },
+    ],
+    });
+    res.json(singleProduct);
   } catch {
-
+    res.status(500).json({ message: 'Error fetching data for the product with the associated id:', error});
   }
 });
 
 // POST /api/products to create data in Product model and associate any tags using the ProductTag through model
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   console.log(req.body);
 
   Product.create(req.body)
@@ -44,7 +69,8 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/products/:id to update a post by it's `id`, fill in the question marks!
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
+   console.log(req.body);
   const tagIds = req.body.tagIds.split(',');
   // update product data
   Product.update(// ? , {
@@ -75,11 +101,12 @@ router.put('/:id', (req, res) => {
 
 // DELETE 
 // /api/products/:id to delete a product by its `id` value
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
+  const productID = req.params.id;
   try {
     Product.destroy({
       where: {
-        id: req
+        id: productID
       }
     });
     if (res>0)

@@ -4,7 +4,7 @@ const tagRouter = require('express').Router();
 const Tag = require("../../Models/tags");
 
 // GET /api/tags to retrieve all tags from database, include associated Product data through ProductTag
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     try {
 
     } catch {
@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
 });
 
 // GET /api/tags/:id to retrieve a tag from database by its `id`, include associated Product data through ProductTag
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
+    const productID = req.params.id;
     try {
 
     } catch {
@@ -22,7 +23,8 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /api/tags to create a tag
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+    console.log(req.body);
     try {
 
     } catch {
@@ -31,7 +33,9 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/tags/:id to update a tag's information by its `id`
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
+    console.log(req.body);
+    const productID = req.params.id;
     try {
 
     } catch {
@@ -40,7 +44,8 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE /api/tags/:id to delete a tag by its `id`
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
+    const productID = req.params.id;
     try {
 
     } catch {
