@@ -27,12 +27,12 @@ router.get('/:id', async (req, res) => {
             }],
         });
         if (oneCategoryData.length === 0){
-            res.status(404).json({ message: `Category with ID ${categoryId} not found` });
+            res.status(404).json({ message: `Category with id ${categoryId} not found` });
         } else {
             res.json(oneCategoryData);
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching data for the category with the associated id:', error});
+        res.status(500).json({ message: `Error fetching data for the category with id: ${categoryId}`, error});
     }
 });
 
@@ -61,7 +61,7 @@ router.put('/:id', async (req, res) => {
                 },
             });
             if (updateCategory[0] === 0){
-                res.status(404).json({ message: `No categories found matching id`});
+                res.status(404).json({ message: `No categories found matching id: ${categoryId}`});
             } else {
            res.status(200).json({ message: `successfully updated category` });
             };
@@ -80,7 +80,7 @@ router.delete('/:id', async (req, res) => {
             },
         })
         if (deleteCategory0 === 0){
-            res.status(404).json({ message: `Category with ID ${categoryId} not found` });
+            res.status(404).json({ message: `Category with id: ${categoryId} not found` });
         } else {
             res.status(200).json({ message: `Successfully deleted category with ${categoryID}`, deletedRecords: deleteCategory});
         }

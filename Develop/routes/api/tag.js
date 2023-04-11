@@ -16,20 +16,28 @@ router.get('/', async (req, res) => {
         },
       ],
     });
-    res.status(200).json({ message: 'Successfully retrieved tags from the database!', tagData: tags });
+    res.status(200).json({ message: `Successfully retrieved tags from the database!`, tagData: tags });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching tag data', error });
+    res.status(500).json({ message: `Error fetching tag data`, error });
   }
 });
 
-
 // GET /api/tags/:id to retrieve a tag from database by its `id`, include associated Product data through ProductTag
 router.get('/:id', async (req, res) => {
-    const productID = req.params.id;
+    const tagID = req.params.id;
     try {
-
-    } catch {
-
+        const tag = await Tag.findAll({
+            where: {
+                id: tagID,
+            },
+            include: [{
+                model: Product,
+                through: ProductTag,
+            }],
+        });
+        res.status(200).json({ message: `successfully retrieved individual tag data for tagId: ${tagID}`, tagData: tag })
+    } catch (error) {
+        res.status(500).json({ message: `Error fetching individual tag data`, error });
     }
 });
 
@@ -46,7 +54,7 @@ router.post('/', async (req, res) => {
 // PUT /api/tags/:id to update a tag's information by its `id`
 router.put('/:id', async (req, res) => {
     console.log(req.body);
-    const productID = req.params.id;
+    const tagID = req.params.id;
     try {
 
     } catch {
@@ -56,7 +64,7 @@ router.put('/:id', async (req, res) => {
 
 // DELETE /api/tags/:id to delete a tag by its `id`
 router.delete('/:id', async (req, res) => {
-    const productID = req.params.id;
+    const tagID = req.params.id;
     try {
 
     } catch {

@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     });
     res.status(200).json({ message: `Successfully retrieved product data from database!`, productData: products});
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching product data', error});
+    res.status(500).json({ message: `Error fetching product data`, error});
   }
 });
 
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
   try {
     const singleProduct = await Product.findAll({
       where: {
-        id: req.params.id,
+        id: productID,
       },
       include: [{
         model: Category,
@@ -39,16 +39,15 @@ router.get('/:id', async (req, res) => {
       {
         model: Tag,
         through: ProductTag,
-      },
-    ],
+      }],
     });
     if (singleProduct.length === 0){
-      res.status(404).json({ message: `Product with ID ${productID} not found` });
+      res.status(404).json({ message: `Product with id: ${productID} not found` });
     } else {
       res.json(singleProduct);
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching data for the product with the associated id:', error});
+    res.status(500).json({ message: `Error fetching data for the product with id: ${productID}`, error});
   }
 });
 
@@ -115,7 +114,7 @@ router.delete('/:id', async (req, res) => {
       },
     });
   if (productToDestroy0 === 0) {
-    res.status(404).json({ message: `Product with ID ${productID} not found` });
+    res.status(404).json({ message: `Product with id ${productID} not found` });
   } else {
     res.status(200).json({ message: `Successfully deleted product with ${productID}`});
   }
