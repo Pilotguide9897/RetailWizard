@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         },
       ],
     });
-      res.json(products);
+    res.status(200).json({ message: `Successfully retrieved product data from database!`, productData: products});
   } catch (error) {
     res.status(500).json({ message: 'Error fetching product data', error});
   }
