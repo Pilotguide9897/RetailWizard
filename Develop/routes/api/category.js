@@ -7,11 +7,10 @@ const Category = require("../../Models/categories");
 router.get('/', async (req, res) => {
     try {
         const allCategoryData = await Category.findAll();
-        console.log(category.every(category => category instanceof Category));
-        console.log("All Categories:", JSON.stringify(categories));
+        res.status(200).json({ message: `Successfully fetched category data`});
         res.json(allCategoryData);
     } catch (error) {
-
+        res.status(500).json({ message: `Failed to fetch category data`, error});
     }
 });
 
@@ -26,7 +25,7 @@ router.get('/:id', async (req, res) => {
             res.json(oneCategoryData);
         })
     } catch (error) {
-
+        res.status(500). 
     }
 });
 

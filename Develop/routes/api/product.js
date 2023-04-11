@@ -42,8 +42,12 @@ router.get('/:id', async (req, res) => {
       },
     ],
     });
-    res.json(singleProduct);
-  } catch {
+    if (singleProduct.length === 0){
+      res.status(404).json({ message: `Product with ID ${productID} not found` });
+    } else {
+      res.json(singleProduct);
+    }
+  } catch (error) {
     res.status(500).json({ message: 'Error fetching data for the product with the associated id:', error});
   }
 });
@@ -70,12 +74,13 @@ router.post('/', async (req, res) => {
 
 // PUT /api/products/:id to update a post by it's `id`, fill in the question marks!
 router.put('/:id', async (req, res) => {
+   const productID = req.params.id;
    console.log(req.body);
   const tagIds = req.body.tagIds.split(',');
   // update product data
   Product.update(// ? , {
     where: {
-      id: // ?
+      id: productID,
     }
   })
     .then(product => {
@@ -104,14 +109,18 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const productID = req.params.id;
   try {
-    Product.destroy({
+   const productToDestroy = await Product.destroy({
       where: {
-        id: productID
-      }
+        id: productID,
+      },
     });
-    if (res>0)
-  } catch {
-
+  if (productToDestroy === 0) {
+    res.status(404).json({ message: `Product with ID ${productID} not found` });
+  } else {
+    res.status(200).json({ message: `Successfully deleted product with ${productID}`});
+  }
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
