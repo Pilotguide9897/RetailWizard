@@ -39,6 +39,12 @@ router.get('/:id', async (req, res) => {
 // POST /api/categories to create data in Category model provided in req.body
 router.post('/', async (req, res) => {
     console.log(req.body);
+
+    //Validation
+    if (!req.body.category_name || typeof req.body.category_name !== 'string'){
+        return res.status(400).json({ message: 'Invalid input data: category_name is required and should be a string.' });
+    }
+
     try {
         const newCategory = await Category.create({ name: req.body.category_name })
         if (newCategory === 0){
@@ -75,14 +81,14 @@ router.delete('/:id', async (req, res) => {
     const categoryId = req.params.id
     try {
        const deleteCategory = await Category.destroy({
-            where:{
-                id: categoryId
+            where: {
+                id: categoryId,
             },
-        })
-        if (deleteCategory0 === 0){
+        });
+        if (deleteCategory === 0){
             res.status(404).json({ message: `Category with id: ${categoryId} not found` });
         } else {
-            res.status(200).json({ message: `Successfully deleted category with ${categoryID}`, deletedRecords: deleteCategory});
+            res.status(200).json({ message: `Successfully deleted category with ${categoryId}`, deletedRecords: deleteCategory});
         }
     } catch (error) {
         res.status(500).json(error);

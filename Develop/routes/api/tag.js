@@ -44,10 +44,17 @@ router.get('/:id', async (req, res) => {
 // POST /api/tags to create a tag
 router.post('/', async (req, res) => {
     console.log(req.body);
+
+    //Validation
+    if (!req.body.tag_name || typeof req.body.tag_name !== 'string'){
+        return res.status(400).json({ message: 'Invalid input data: tag_name is required and should be a string.' });
+    }
+
     try {
-
-    } catch {
-
+        const createTag = await Tag.create(req.body);
+        res.status(200).json({ message: 'Tag successfully created', tagData: createTag });
+    } catch (error) {
+        res.status(400).json({ message: 'Error creating tag', error });
     }
 });
 
@@ -56,9 +63,18 @@ router.put('/:id', async (req, res) => {
     console.log(req.body);
     const tagID = req.params.id;
     try {
-
-    } catch {
-
+        const updateTagInfo = await Tag.update({tag_name: req.body.tag_name}, {
+            where: {
+                id: tagID,
+            },
+        });
+        if (updateTagInfo[0] === 0){
+                res.status(404).json({ message: `No tags found matching id: ${tagID}`});
+            } else {
+           res.status(200).json({ message: `successfully updated tag` });
+            };
+    } catch (error) {
+        res.status(500).json(error);
     }
 });
 
@@ -66,9 +82,18 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const tagID = req.params.id;
     try {
-
-    } catch {
-
+        const deleteTag = await Tag.destroy({
+            where: {
+                id: tagID,
+            },
+        });
+        if (deleteTag === 0){
+                res.status(404).json({ message: `No tags found matching id: ${tagID}`});
+            } else {
+           res.status(200).json({ message: `successfully deleted tag` });
+            };
+    } catch (error) {
+        res.status(500).json(error);
     }
 });
 
