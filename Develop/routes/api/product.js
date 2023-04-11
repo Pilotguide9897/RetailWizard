@@ -78,13 +78,13 @@ router.put('/:id', async (req, res) => {
    console.log(req.body);
   const tagIds = req.body.tagIds.split(',');
   // update product data
-  Product.update(// ? , {
+  Product.update({name: req.body.product_name, price: req.body.price, stock: req.body.stock}, {
     where: {
       id: productID,
     }
   })
     .then(product => {
-      // find all associated tags from producttag
+      // find all associated tags from productTag
       return ProductTag.findAll({ where: { ProductId: req.params.id }, raw: true });
     })
     .then(productTags => {

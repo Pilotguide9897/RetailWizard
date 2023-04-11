@@ -16,16 +16,23 @@ router.get('/', async (req, res) => {
 
 // GET /api/categories/:id to retrieve one category's data by it's `id` value, include associated Product data
 router.get('/:id', async (req, res) => {
+    const categoryId = req.params.id;
     try {
         const oneCategoryData = await Category.findAll({
             where: {
-                id: req.params.id// how can I set this to the variable that the user puts in?
-            }
-        }).then((oneCategoryData) =>{
+                id: categoryId,
+            },
+            include: [{
+                model: Product,
+            }],
+        });
+        if (oneCategoryData.length === 0){
+            res.status(404).json({ message: `Category with ID ${categoryId} not found` });
+        } else {
             res.json(oneCategoryData);
-        })
+        }
     } catch (error) {
-        res.status(500). 
+        res.status(500).json({ message: 'Error fetching data for the category with the associated id:', error});
     }
 });
 
@@ -33,11 +40,12 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     console.log(req.body);
     try {
-        Category.create(req.body).then((newCategory) => {
-            res.json(Category)
-        })
+        const newCategory = await Category.create({ name: req.body.category_name })
+        if (newCategory === 0){
+            res.status(200).json({ message: `Successfully created new category!`, newCategory});
+        } 
     } catch (error) {
-        res.json(error);
+        res.status(500).json({ message: `Error posting new category`, error});
     }
 });
 
