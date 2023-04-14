@@ -1,9 +1,9 @@
 const tagRouter = require('express').Router();
 
-const ProductTag = require('../../Models/productTags');
-const Product = require('../../Models/products');
+const ProductTag = require('../../models/productTags');
+const Product = require('../../models/products');
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
-const Tag = require('../../Models/tags');
+const Tag = require('../../models/tags');
 
 // GET /api/tags to retrieve all tags from the database, include associated Product data through ProductTag
 tagRouter.get('/', async (req, res) => {
