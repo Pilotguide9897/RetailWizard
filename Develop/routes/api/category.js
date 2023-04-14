@@ -7,10 +7,10 @@ const Category = require('../../models/categories');
 categoryRouter.get('/', async (req, res) => {
   try {
     const allCategoryData = await Category.findAll();
-    res.status(200).json({ message: `Successfully fetched category data` });
-    res.json(allCategoryData);
+    res.status(200).json({ message: 'Successfully fetched category data', data: allCategoryData });
   } catch (error) {
     res.status(500).json({ message: `Failed to fetch category data`, error });
+    //file changes now
   }
 });
 
@@ -22,11 +22,11 @@ categoryRouter.get('/:id', async (req, res) => {
       where: {
         id: categoryId
       },
-      include: [
-        {
-          model: Product
-        }
-      ]
+      // include: [ //Again, here the error is being caused by the include statement.
+      //   {
+      //     model: Product
+      //   }
+      // ]
     });
     if (oneCategoryData.length === 0) {
       res.status(404).json({ message: `Category with id ${categoryId} not found` });

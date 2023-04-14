@@ -9,16 +9,18 @@ const Category = require('../../models/categories');
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
 productRouter.get('/', async (req, res) => {
   try {
-    const products = await Product.findAll({
-      include: [
-        {
-          model: Category
-        },
-        {
-          model: Tag,
-          through: ProductTag
-        }
-      ]
+    const products = await Product.findAll({ // It is the include statement that is causing the sequelize eager loading error...
+      // include: [
+      //   {
+      //     model: Category,
+      //     as: 'category',
+      //   },
+      //   {
+      //     model: Tag,
+      //     as: 'tags',
+      //     through: ProductTag,
+      //   },
+      // ],
     });
     res.status(200).json({
       message: `Successfully retrieved product data from database!`,

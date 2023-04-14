@@ -8,17 +8,16 @@ const Tag = require('../../models/tags');
 // GET /api/tags to retrieve all tags from the database, include associated Product data through ProductTag
 tagRouter.get('/', async (req, res) => {
   try {
-    const tags = await Tag.findAll({
-      include: [
-        {
-          model: Product,
-          through: ProductTag
-        }
-      ]
+    const tags = await Tag.findAll({ // Again, the include is what is causing the error with my get.
+      // include: [
+      //   {
+      //     model: Product,
+      //     through: ProductTag
+      //   }
+      // ]
     });
     res
-      .status(200)
-      .json({ message: `Successfully retrieved tags from the database!`, tagData: tags });
+      .status(200).json({ message: `Successfully retrieved tags from the database!`, tagData: tags });
   } catch (error) {
     res.status(500).json({ message: `Error fetching tag data`, error });
   }
