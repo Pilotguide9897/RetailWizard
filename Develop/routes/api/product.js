@@ -1,10 +1,7 @@
 const productRouter = require('express').Router();
 
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
-const Product = require('../../models/products');
-const Tag = require('../../models/tags');
-const ProductTag = require('../../models/productTags');
-const Category = require('../../models/categories');
+const { Category, Product, Tag, ProductTag } = require('../../models/index');
 
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
 productRouter.get('/', async (req, res) => {

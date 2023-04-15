@@ -1,20 +1,17 @@
 const tagRouter = require('express').Router();
-
-const ProductTag = require('../../models/productTags');
-const Product = require('../../models/products');
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
-const Tag = require('../../models/tags');
+const { Category, Product, Tag, ProductTag } = require('../../models/index');
 
 // GET /api/tags to retrieve all tags from the database, include associated Product data through ProductTag
 tagRouter.get('/', async (req, res) => {
   try {
     const tags = await Tag.findAll({ // Again, the include is what is causing the error with my get.
-      // include: [
-      //   {
-      //     model: Product,
-      //     through: ProductTag
-      //   }
-      // ]
+      include: [
+        {
+          model: Product,
+          through: ProductTag,
+        },
+      ],
     });
     res
       .status(200).json({ message: `Successfully retrieved tags from the database!`, tagData: tags });
@@ -29,19 +26,16 @@ tagRouter.get('/:id', async (req, res) => {
   try {
     const tag = await Tag.findAll({
       where: {
-        id: tagID
+        id: tagID,
       },
       include: [
         {
           model: Product,
-          through: ProductTag
-        }
-      ]
+          through: ProductTag,
+        },
+      ],
     });
-    res.status(200).json({
-      message: `successfully retrieved individual tag data for tagId: ${tagID}`,
-      tagData: tag
-    });
+    res.status(200).json({ message: `successfully retrieved individual tag data for tagId: ${tagID}`, tagData: tag });
   } catch (error) {
     res.status(500).json({ message: `Error fetching individual tag data`, error });
   }
@@ -53,9 +47,7 @@ tagRouter.post('/', async (req, res) => {
 
   //Validation
   if (!req.body.tag_name || typeof req.body.tag_name !== 'string') {
-    return res
-      .status(400)
-      .json({ message: 'Invalid input data: tag_name is required and should be a string.' });
+    return res.status(400).json({ message: 'Invalid input data: tag_name is required and should be a string.' });
   }
 
   try {
@@ -77,7 +69,7 @@ tagRouter.put('/:id', async (req, res) => {
         where: {
           id: tagID
         }
-      }
+      },
     );
     if (updateTagInfo[0] === 0) {
       res.status(404).json({ message: `No tags found matching id: ${tagID}` });
