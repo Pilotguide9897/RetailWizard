@@ -1,23 +1,21 @@
 const productRouter = require('express').Router();
-
-// DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
 const { Category, Product, Tag, ProductTag } = require('../../models/index');
 
 // GET /api/products to retrieve all products from database, include associated Category and Tag data (through ProductTag)
 productRouter.get('/', async (req, res) => {
   try {
-    const products = await Product.findAll({ // It is the include statement that is causing the sequelize eager loading error...
-      // include: [
-      //   {
-      //     model: Category,
-      //     as: 'category',
-      //   },
-      //   {
-      //     model: Tag,
-      //     as: 'tags',
-      //     through: ProductTag,
-      //   },
-      // ],
+    const products = await Product.findAll({ 
+      include: [
+        {
+          model: Category,
+          as: 'category',
+        },
+        {
+          model: Tag,
+          as: 'tags',
+          through: ProductTag,
+        },
+      ],
     });
     res.status(200).json({
       message: `Successfully retrieved product data from database!`,
@@ -52,9 +50,7 @@ productRouter.get('/:id', async (req, res) => {
       res.json(singleProduct);
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: `Error fetching data for the product with id: ${productID}`, error });
+    res.status(500).json({ message: `Error fetching data for the product with id: ${productID}`, error });
   }
 });
 
@@ -62,9 +58,12 @@ productRouter.get('/:id', async (req, res) => {
 productRouter.post('/', async (req, res) => {
   console.log(req.body);
 
-  Product.create(req.body)
+  // Extract tagIds from the request body
+  const { tagIds, ...productData } = req.body;
+
+  Product.create(productData)
     .then(product => {
-      if (tagIds.length) {
+      if (tagIds && tagIds.length) {
         const productTagIdArr = tagIds.map(TagId => ({ ProductId: product.id, TagId }));
         console.log(productTagIdArr);
         return ProductTag.bulkCreate(productTagIdArr);
@@ -123,10 +122,10 @@ productRouter.delete('/:id', async (req, res) => {
         id: productID
       }
     });
-    if (productToDestroy0 === 0) {
+    if (productToDestroy === 0) {
       res.status(404).json({ message: `Product with id ${productID} not found` });
     } else {
-      res.status(200).json({ message: `Successfully deleted product with ${productID}` });
+      res.status(200).json({ message: `Successfully deleted product with ProductId:${productID}` });
     }
   } catch (error) {
     res.status(500).json(error);

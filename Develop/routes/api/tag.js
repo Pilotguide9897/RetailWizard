@@ -1,11 +1,10 @@
 const tagRouter = require('express').Router();
-// DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
 const { Category, Product, Tag, ProductTag } = require('../../models/index');
 
 // GET /api/tags to retrieve all tags from the database, include associated Product data through ProductTag
 tagRouter.get('/', async (req, res) => {
   try {
-    const tags = await Tag.findAll({ // Again, the include is what is causing the error with my get.
+    const tags = await Tag.findAll({ 
       include: [
         {
           model: Product,

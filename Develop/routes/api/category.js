@@ -1,6 +1,4 @@
 const categoryRouter = require('express').Router();
-
-// DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
 const { Category, Product, Tag, ProductTag } = require('../../models/index');
 
 // GET /api/categories to retrieve all categories from database, include associated Product data
