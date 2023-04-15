@@ -2,22 +2,19 @@ const categoryRouter = require('express').Router();
 
 // DON'T FORGET TO IMPORT THE MODELS YOU'LL WORK WITH
 const Category = require('../../models/categories');
+const Product = require('../../models/products');
 
 // GET /api/categories to retrieve all categories from database, include associated Product data
 categoryRouter.get('/', async (req, res) => {
   try {
-        const allCategoryData = await Category.findAll();
-        include: [ //Again, here the error is being caused by the include statement.
-           {
-             model: Product
-           }
-         ]
+        const allCategoryData = await Category.findAll({
+           include: [{ model: Product }],
+        });
         res.status(200).json({ message: 'Successfully fetched category data', data: allCategoryData });
       } catch (error) {
-    res.status(500).json({ message: `Failed to fetch category data`, error });
-    //file changes now
-  }
-});
+      res.status(500).json({ message: 'Failed to fetch category data', error });
+    }
+  });
 
 // GET /api/categories/:id to retrieve one category's data by it's `id` value, include associated Product data
 categoryRouter.get('/:id', async (req, res) => {
@@ -27,11 +24,7 @@ categoryRouter.get('/:id', async (req, res) => {
       where: {
         id: categoryId
       },
-      // include: [ //Again, here the error is being caused by the include statement.
-      //   {
-      //     model: Product
-      //   }
-      // ]
+      include: [{ model: Product }],
     });
     if (oneCategoryData.length === 0) {
       res.status(404).json({ message: `Category with id ${categoryId} not found` });
@@ -39,9 +32,7 @@ categoryRouter.get('/:id', async (req, res) => {
       res.json(oneCategoryData);
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: `Error fetching data for the category with id: ${categoryId}`, error });
+    res.status(500).json({ message: `Error fetching data for the category with id: ${categoryId}`, error });
   }
 });
 
