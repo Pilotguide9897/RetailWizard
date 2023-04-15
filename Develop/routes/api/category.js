@@ -44,14 +44,13 @@ categoryRouter.post('/', async (req, res) => {
     return res.status(400).json({ message: 'Invalid input data: category_name is required and should be a string.' });
   }
 
-  try {
-    const newCategory = await Category.create({ name: req.body.category_name });
-    if (newCategory === 0) {
-      res.status(200).json({ message: `Successfully created new category!`, newCategory });
-    }
-  } catch (error) {
-    res.status(500).json({ message: `Error posting new category`, error });
-  }
+ try {
+   const newCategory = await Category.create({ category_name: req.body.category_name });
+   res.status(200).json({ message: `Successfully created new category!`, newCategory });
+ } catch (error) {
+   res.status(500).json({ message: `Error posting new category`, error });
+ }
+
 });
 
 // PUT /api/categories/:id to update category by its `id` value
@@ -60,7 +59,7 @@ categoryRouter.put('/:id', async (req, res) => {
   console.log(req.body);
   try {
     const updateCategory = await Category.update(
-      { name: req.body.category_name },
+      { category_name: req.body.category_name },
       {
         where: {
           id: categoryId
