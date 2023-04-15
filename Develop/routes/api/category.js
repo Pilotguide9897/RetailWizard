@@ -6,9 +6,14 @@ const Category = require('../../models/categories');
 // GET /api/categories to retrieve all categories from database, include associated Product data
 categoryRouter.get('/', async (req, res) => {
   try {
-    const allCategoryData = await Category.findAll();
-    res.status(200).json({ message: 'Successfully fetched category data', data: allCategoryData });
-  } catch (error) {
+        const allCategoryData = await Category.findAll();
+        include: [ //Again, here the error is being caused by the include statement.
+           {
+             model: Product
+           }
+         ]
+        res.status(200).json({ message: 'Successfully fetched category data', data: allCategoryData });
+      } catch (error) {
     res.status(500).json({ message: `Failed to fetch category data`, error });
     //file changes now
   }
@@ -46,9 +51,7 @@ categoryRouter.post('/', async (req, res) => {
 
   //Validation
   if (!req.body.category_name || typeof req.body.category_name !== 'string') {
-    return res
-      .status(400)
-      .json({ message: 'Invalid input data: category_name is required and should be a string.' });
+    return res.status(400).json({ message: 'Invalid input data: category_name is required and should be a string.' });
   }
 
   try {
