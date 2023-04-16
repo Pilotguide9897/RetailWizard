@@ -30,9 +30,9 @@ Navigate to the root folder of the project and run `npm install` in the command 
 3. Configure environment variables
 Create a .env file in the root folder of the project with the following content:
 
-`DB_NAME=your_database_name
+```DB_NAME=your_database_name
  DB_USER=your_mysql_username
- DB_PASSWORD=your_mysql_password`
+ DB_PASSWORD=your_mysql_password```
 Be sure to replace your_database_name, your_mysql_username, and your_mysql_password with your actual MySQL database name, username, and password.
 
 4. Create the database schema
