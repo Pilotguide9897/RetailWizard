@@ -182,7 +182,13 @@ productRouter.put('/:id', (req, res) => {
         ProductTag.bulkCreate(newProductTags)
       ]);
     })
-    .then(updatedProductTags => res.json(updatedProductTags))
+    .then(updatedProductTags => {
+      res.json({
+        message: 'Product updated successfully',
+        removedTags: updatedProductTags[0],
+        addedTags: updatedProductTags[1]
+      });
+    })
     .catch(err => {
       // console.log(err);
       res.status(400).json(err);
