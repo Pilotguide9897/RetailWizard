@@ -13,12 +13,12 @@ Tag.init(
       primaryKey: true
     },
     tag_name: {
-      type: DataTypes.STRING,
-    },
+      type: DataTypes.STRING
+    }
   },
   {
     sequelize,
-    modelName: 'tag',
+    modelName: 'tag'
   }
 );
 
