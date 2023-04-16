@@ -5,7 +5,7 @@
 
 This backend e-commerce application provides an Express.js API that allows you to interact with a MySQL database using Sequelize to manage categories, products, and tags.
 
-A video illustrating this application's functionality may be viewed [here]().
+A video illustrating this application's functionality may be viewed [here](https://youtu.be/aV459Fu_KT8).
 
 ## Table of Contents
 - [Description](#description)
