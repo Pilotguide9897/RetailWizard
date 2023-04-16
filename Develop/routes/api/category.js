@@ -55,6 +55,7 @@ categoryRouter.post('/', async (req, res) => {
 categoryRouter.put('/:id', async (req, res) => {
   const categoryId = req.params.id;
   console.log(req.body);
+  console.log('Category ID:', categoryId);
   try {
     const updateCategory = await Category.update(
       { category_name: req.body.category_name },
@@ -64,12 +65,14 @@ categoryRouter.put('/:id', async (req, res) => {
         }
       }
     );
+    console.log('Update result:', updateCategory);
     if (updateCategory[0] === 0) {
       res.status(404).json({ message: `No categories found matching id: ${categoryId}` });
     } else {
       res.status(200).json({ message: `successfully updated category` });
     }
   } catch (error) {
+    console.error('Error:', error);
     res.status(500).json(error);
   }
 });
