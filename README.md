@@ -118,6 +118,8 @@ UPDATE Tag/PUT:
 ## Contributing
 Users interested in contributing to this project may fork the GitHub repository, make their intended alterations, and submit these changes to the original repository as a pull request. Pull requests will be reviewed by the project author. If accepted, the changes will be merged and added to the project's main branch to create the new starting point for future development!
 
+*Starter code for this project was provided courtesy of GitHub user Xandromus Xander Rapstine. The original code may be accessed [here](https://github.com/coding-boot-camp/fantastic-umbrella). The primary changes that I made to the code for this project involved specifically outlining the models, creating the associations between tables, and filling out the API Routes to Perform RESTful CRUD Operations.
+
 ## Questions
 * If you have any questions concerning this application, do not hesitate to reach me at jaredryan1997@hotmail.com.
 * You may also view my GitHub profile at http://github.com/Pilotguide9897.
